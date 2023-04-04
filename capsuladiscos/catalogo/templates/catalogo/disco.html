@@ -1,0 +1,108 @@
+{% extends 'core/base.html' %} <!-- Invoca la plantilla "base.html" -->
+<!-- Bloque particular de esta página -->
+{% load static %} <!-- carga contenido estático-->
+{% block title %}Catálogo{% endblock %} <!--Bloque de título para esta página -->
+
+<!--bloque de imagen de fondo-->
+{% block background %} {{disco.caratula.url}} {% endblock %} <!-- {% static 'core/img/home-bg.jpg' %}-->
+<!--bloque de título y subtítulo-->
+{% block headers %}
+    <h2>:: Disco ::</h2>
+    <span class="subheading">{{disco.titulo}} - {{disco.banda}}</span>
+{% endblock %}
+
+{% block content %}
+<div class="alinear-discos">
+    <!--*******************CARÁTULA*****************-->
+    <div class="col-lg-5 offset-lg-0">
+        <!-- ImageField tiene atributo url que genera ruta correcta automáticamente ocupando variable MEDIA_URL en settings.py -->
+        <div><img class="img-fluid caratula-tam" src="{{disco.caratula.url}}" alt=""></div>
+        <h5>
+            <div class="discoNombre">
+                {{disco.titulo}}<br>
+                <a href="{% url 'banda' disco.banda.id %}">{{disco.banda}}</a>
+            </div>
+        </h5>
+    </div>
+    <!-- *************REPRODUCTOR ********** -->
+    <div class="col-lg-5 offset-lg-2">
+        <textarea maxlength="300" id="txt_sptf" hidden=True>{{disco.link_sptf}}</textarea>
+        <div id="reprod"></div>
+        <script type="text/javascript">capturar();</script>
+    </div>
+    <!-- *************DATOS DEL DISCO ********** -->
+    <div class="col-lg-5 offset-lg-0">
+        <!--************************OTRAS PLATAFORMAS DEL DISCO************************-->
+        {% if disco.link_apple %}
+            <!-- disco.link_apple: identificador de enlace a APPLE MUSIC -->
+            <a class="info-plataformas" href="{{disco.link_apple}}" target="_blank">
+                <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-apple music fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        {% endif %}
+        {% if disco.link_ytb %}
+            <!-- disco.link_ytb: identificador de enlace a YOUTUBE -->
+            <a class="info-plataformas" href="{{disco.link_ytb}}" target="_blank">
+                <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-youtube fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        {% endif %}
+        <!-- ::::::::Espacio para LA TIENDA NACIONAL ::::::::-->
+        <P></P>
+        <!-- {% if disco.link_tienda_cd or disco.link_tienda_vin or disco.link_tienda_cas %}
+            <img width=30% src="{% static 'core/img/TNacional_logo.jpg' %}"><br>
+        {% endif %} -->
+        <div>
+            {% if disco.link_tienda_cd %}
+                <a href="{{disco.link_tienda_cd}}" target="_blank"><img width=25% src="{% static 'core/img/TNacional_logo.jpg' %}"></a>
+                <a href="{{disco.link_tienda_cd}}" target="_blank"><b>Comprar CD</b></a>
+                <br>
+            {% endif %}
+            {% if disco.link_tienda_vin %}
+                <a href="{{disco.link_tienda_vin}}" target="_blank"><img width=25% src="{% static 'core/img/TNacional_logo.jpg' %}"></a>
+                <a href="{{disco.link_tienda_vin}}" target="_blank"><b>Comprar VINILO</b></a>
+                <br>
+            {% endif %}
+            {% if disco.link_tienda_cas %}
+                <a href="{{disco.link_tienda_cas}}" target="_blank"><img width=25% src="{% static 'core/img/TNacional_logo.jpg' %}"></a>
+                <a href="{{disco.link_tienda_cas}}" target="_blank"><b>Comprar CASSETTE</b></a>
+                <br>
+            {% endif %}
+        </div>
+        <!--:::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+        <p></p><br>
+        <b>Información del Disco</b><br>
+        <span class="info-creditos" >Publicación: {{disco.fechaDisco | date:'Y'}}</span><!--{{disco.fechaDisco | date:'d/m/Y'}}-->
+        <div class="info-creditos">{{disco.descripDisco|safe}}</div> <!-- contenido se editará con CKeditor -->
+        <!-- ************ CRÉDITOS, DATOS Y ROLES DE LA PRODUCCIÓN***********-->
+        <p></p>
+
+        <span id="colabDisco"></span>
+        {% for prod in produccionDisco %} 
+            {% if prod.disco_id == disco.id %}
+                <!-- cargar título-->
+                <script type="text/javascript">escribirDisc();</script>
+            {% endif %}
+        {% endfor %}
+        <br>
+        {% for produccion in produccionDisco %} <!--TODAS LAS COLABORACIONES DE MÚSICOS-->
+            {% if produccion.disco_id == disco.id %} <!-- COLABORACIONES DE ESTE ID DE DISCO-->
+                <a class="info-creditos" href="{% url 'musico' produccion.musico.id %}">{{produccion.musico.nombreArt}}</a>
+                {% for indice, item in produccion.ROL_PRODUCCION %}
+                    {% if indice == produccion.rol %}
+                        <br>
+                        <span class="info-rol-disco">{{item}}:</span>
+                    {% endif %}
+                {% endfor %}
+                <div class="info-creditos">{{produccion.descripcion}}</div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+    
+{% endblock %} 

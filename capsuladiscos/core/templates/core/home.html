@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %} <!-- Invoca la plantilla "base.html" -->
+<!-- Bloque particular de esta página -->
+{% load static %} <!-- carga contenido estático-->
+{% block title %}Catálogo{% endblock %} <!--Bloque de título para esta página -->
+
+<!--bloque de imagen de fondo-->
+{% block background %}{% static 'core/img/home-bg.jpg' %}{% endblock %}
+<!--bloque de título y subtítulo-->
+{% block headers %}
+    <h1>Cápsula Discos</h1>
+    <span class="subheading">Home</span>
+{% endblock %}
+
+{% block content %}
+<h2>Bienvenidos</h2>
+<p>Este es el home.</p>
+{% endblock %} 

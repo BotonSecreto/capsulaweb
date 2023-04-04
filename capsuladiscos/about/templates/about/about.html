@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+<!-- Invoca la plantilla "base.html" -->
+<!-- Bloque particular de esta página -->
+{% load static %}
+<!-- carga contenido estático-->
+{% block title %}Acerca de Nosotros{% endblock %}
+<!--Bloque de título para esta página -->
+<!--bloque de imagen de fondo-->
+{% block background %}{% static 'core/img/about-bg.jpg' %}{% endblock %}
+
+{% block headers %}
+<h2>:: Nosotros ::</h2>
+<!-- <span class="subheading">Acerca de Cápsula Discos</span> -->
+{% endblock %}
+{% block content%}
+    {% for nos in nosotros %} <!--ocupamos el diccionario "proyectos" y  lo recorremos-->
+    <div class="alinear-discos">
+        <div class="col-lg-3 offset-lg-1">
+            <!-- ImageField tiene atributo url que genera ruta correcta automáticamente ocupando variable MEDIA_URL en settings.py -->
+            <img class="img-fluid" src="{{nos.imagen.url}}" alt="">
+        </div>
+        <div class="col-lg-7">
+            <h2 class="section-heading title">{{nos.titulo}}</h2>
+            <p>{{nos.descripcion|safe}}</p> <!-- contenido se editará con CKeditor -->
+            {% if nos.link %}
+            <p><a href="{{nos.link}}">Más información</a></p>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}

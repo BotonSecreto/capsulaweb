@@ -1,0 +1,128 @@
+{% extends 'core/base.html' %}
+<!-- Invoca la plantilla "base.html" -->
+<!-- Bloque particular de esta página -->
+{% load static %}
+<!-- carga contenido estático-->
+{% block title %}Catálogo{% endblock %}
+<!--Bloque de título para esta página -->
+
+<!--bloque de imagen de fondo-->
+{% block background %}{{banda.imgBanda.url}}{% endblock %}
+<!--bloque de título y subtítulo-->
+{% block headers %}
+<h2>:: Banda / Solista ::</h2>
+<span class="subheading">{{banda.nombreBanda}}</span>
+{% endblock %}
+
+{% block content %}
+<div class="alinear-discos">
+<!-- ::::::::: NOMBRE Y PLATAFORMAS DE LA BANDA :::::::-->
+<div class="col-lg-7 offset-lg-0">
+    <h4>{{banda.nombreBanda}}</h4>
+    <!--   PLATAFORMAS -->
+    {% if banda.link_sptf %}
+    <!-- disco.link_sptf: identificador de enlace a SPOTIFY -->
+        <a class="info-plataformas" href="{{banda.link_sptf}}" target="_blank">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-spotify fa-stack-1x fa-inverse"></i>
+        </span>
+        </a>
+    {% endif %}
+    {% if banda.link_apple %}
+    <!-- disco.link_apple: identificador de enlace a APPLE MUSIC -->
+        <a class="info-plataformas" href="{{banda.link_apple}}" target="_blank">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-apple music fa-stack-1x fa-inverse"></i>
+        </span>
+        </a>
+    {% endif %}
+    {% if banda.link_ytb %}
+    <!-- disco.link_ytb: identificador de enlace a YOUTUBE -->
+        <a class="info-plataformas" href="{{banda.link_ytb}}" target="_blank">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-youtube fa-stack-1x fa-inverse"></i>
+        </span>
+        </a>
+    {% endif %}
+    {% if banda.link_ig %}
+    <!-- disco.link_ig: identificador de enlace a INSTAGRAM -->
+        <a class="info-plataformas" href="{{banda.link_ig}}" target="_blank">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+        </span>
+        </a>
+    {% endif %}
+    {% if banda.link_fb %}
+    <!-- disco.link_fb: identificador de enlace a FACEBOOK -->
+        <a class="info-plataformas" href="{{banda.link_fb}}" target="_blank">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+        </span>
+        </a>
+    {% endif %}
+    {% if banda.link_tw %}
+    <!-- disco.link_tw: identificador de enlace a TWITTER -->
+        <a class="info-plataformas" href="{{banda.link_tw}}" target="_blank">
+         <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+        </span>
+        </a>
+    {% endif %}
+    <p></p>
+    <div class="info-creditos">{{banda.descripBanda}}</div>
+    <!-- ::::: INTEGRANTES, ROLES DE LA BANDA ::::-->
+    <p></p>
+    <b>Integrantes</b>
+    <br>
+    {% for integrantes in integranteBanda %}
+    <!--TODOS LOS INTGRANTES DE BANDA-->
+    {% if integrantes.banda_id == banda.id %}
+    <!-- INTEGRANTES DE ESTE ID DE BANDA-->
+        <a class="info-creditos" href="{% url 'musico' integrantes.musico.id %}">{{integrantes.musico.nombreArt}}</a>
+        <!--Carga roles en la banda desde el modelo y busca según índice del rol del artista-->
+        {% for indice, item in integrantes.ROL_BANDA %}
+            {% if indice == integrantes.rol %}
+                <span class="info-rol"> ({{item}})</span>
+                {% if integrantes.activo == False %}
+                    <span class="info"> - [ inactivo ]</span>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        <br>
+    {% endif %}
+    {% endfor %}
+    <p></p>
+</div>
+<!-- ::::::::: IMAGEN DE LA BANDA :::::::-->
+<div class="col-lg-5 offset-lg-0">
+    <!-- ImageField tiene atributo url que genera ruta correcta automáticamente ocupando variable MEDIA_URL en settings.py -->
+    <img class="img-fluid imgBandaMusico-tam" src="{{banda.imgBanda.url}}" alt="">
+</div>
+<!-- ::::: DISCOS DE LA BANDA ::::-->
+<div>
+    <p></p>  
+    <b class="col-lg-2 offset-lg-0">Discos Publicados</b>
+    <P></P>
+    <div class="alinear-discos">
+        {% for disco in discos %}
+        <!--TODOS LOS DISCOS -->
+        {% if disco.banda_id == banda.id %}
+        <!-- DISCOS DE ESTE ID DE BANDA-->
+            <div class="col-lg-2 offset-lg-0 catalogo-nom-disco"> <!-- col-lg-2 permite configurar columnas -->
+                <a href="{% url 'disco' disco.id %}"><img class="img-fluid" src="{{disco.caratula.url}}" alt=""></a>
+                <a href="{% url 'disco' disco.id %}">{{disco.titulo}}</a>
+                <b class="info-plataformas">({{disco.fechaDisco | date:'Y'}})</b>
+                <p></p>
+            </div>   
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends 'core/base.html' %}
+<!-- Invoca la plantilla "base.html" -->
+<!-- Bloque particular de esta página -->
+{% load static %}
+<!-- carga contenido estático-->
+{% block title %}Catálogo{% endblock %}
+<!--Bloque de título para esta página -->
+
+<!--bloque de imagen de fondo-->
+{% block background %}{{musico.imgMusico.url}}{% endblock %}
+<!--bloque de título y subtítulo-->
+{% block headers %}
+<h2>:: Artista ::</h2>
+<span class="subheading">{{musico.nombreArt}}</span>
+{% endblock %}
+
+{% block content %}
+<div class="alinear-discos">
+    <!-- :::::::::::::::: PLATAFORMAS, DESCRIPCIÓN, BANDAS O PROYECTOS DEL MÚSICO ::::::::::::::-->
+    <div class="col-lg-5 offset-lg-0">
+        <h4>{{musico.nombreArt}}</h4>
+        <div class="info">{{musico.nombreReal}}</div>
+        </p>
+        <!--***** PLATAFORMAS DEL MÚSICO ****-->
+         {% if musico.link_ig %}
+        <!-- musico.link_ig: identificador de enlace a INSTAGRAM -->
+        <a class="info-plataformas" href="{{musico.link_ig}}" target="_blank">
+            <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+        {% endif %}
+        {% if musico.link_fb %}
+        <!-- musico.link_fb: identificador de enlace a FACEBOOK -->
+        <a class="info-plataformas" href="{{musico.link_fb}}" target="_blank">
+            <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+        {% endif %}
+        {% if musico.link_tw %}
+        <!-- musico.link_tw: identificador de enlace a TWITTER -->
+        <a class="info-plataformas" href="{{musico.link_tw}}" target="_blank">
+            <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+        {% endif %}
+        <p></p>
+        <!-- INSERTAR ACÁ BANDAS y ROLES-->
+        <b>Bandas o Proyectos</b>
+        <br>
+        {% for integrantes in integranteBanda %}
+        <!--TODOS LOS INTEGRANTES DE BANDAS-->
+        {% if integrantes.musico_id == musico.id %}
+        <!-- BANDA(S) DE ESTE ID DE MÚSICO-->
+        <a class="info-creditos" href="{% url 'banda' integrantes.banda.id %}">{{integrantes.banda.nombreBanda}}</a>
+            <!--Carga roles en la banda desde el modelo y busca según índice del rol del artista-->
+            {% for indice, item in integrantes.ROL_BANDA %}
+                {% if indice == integrantes.rol %}
+                    <span class="info-rol"> ({{item}})</span>
+                {% endif %}
+            {% endfor %}
+        <br>
+        {% endif %}
+        {% endfor %}
+        <p></p>
+    </div>
+    <!-- ::::::::: IMAGEN DEL MÚSICO :::::::-->
+    <div class="col-lg-5 offset-lg-2">
+        <!-- ImageField tiene atributo url que genera ruta correcta automáticamente ocupando variable MEDIA_URL en settings.py -->
+        <img class="img-fluid imgBandaMusico-tam" src="{{musico.imgMusico.url}}" alt="">
+        <p>
+        
+    </div>
+     <!-- :::::::::::::::: COLABORACIONES DEL MÚSICO ::::::::::::::-->
+    <div >
+        <span id="colabMusico"></span>
+        {% for prod in produccionDisco %}
+            {% if prod.musico_id == musico.id %}
+                <!-- cargar título-->
+                <script type="text/javascript">escribirMus();</script>
+            {% endif %}
+        {% endfor %}
+        <!-- *********************** -->
+        <P></P>
+        <div class="alinear-discos">
+
+            {% for produccion in produccionDisco %}
+            <!--TODOS LOS MÚSICOS COLABORADORES-->
+            {% if produccion.musico_id == musico.id %}
+            <!-- COLABORACIONES DE ESTE ID DE MÚSICO-->
+                <div class="col-lg-2 offset-lg-0 catalogo-nom-disco"> <!-- col-lg-2 permite configurar columnas -->
+                <a href="{% url 'disco' produccion.disco.id %}"><img class="img-fluid" src="{{produccion.disco.caratula.url}}" alt=""></a>
+                <a href="{% url 'disco' produccion.disco.id %}">{{produccion.disco.titulo}}</a>
+                <b class="info-plataformas">({{produccion.disco.fechaDisco | date:'Y'}})</b>
+                <br><a href="{% url 'banda' produccion.disco.banda.id %}">{{produccion.disco.banda}}</a>
+                <br>
+                <!--Carga roles desde el modelo y busca según índice del rol del artista-->
+                {% for indice, item in produccion.ROL_PRODUCCION %}
+                    {% if indice == produccion.rol %}
+                        <b class="info-rol"> {{item}}</b>
+                        <!-- <input id="bandId" name="bandId" type="hidden" value="1"> -->
+                    {% endif %}
+                {% endfor %}
+                <br><div class="info-creditos-musico">{{produccion.descripcion}}</div>
+                <p></p>
+                </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

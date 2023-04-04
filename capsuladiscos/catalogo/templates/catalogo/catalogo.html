@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %} <!-- Invoca la plantilla "base.html" -->
+<!-- Bloque particular de esta página -->
+{% load static %} <!-- carga contenido estático-->
+{% block title %}Catálogo{% endblock %} <!--Bloque de título para esta página -->
+<!--bloque de imagen de fondo-->
+{% block background %}{% static 'core/img/home-bg.jpg' %}{% endblock %}
+<!--bloque de título y subtítulo-->
+{% block headers %}
+    <!-- <h2>Catálogo de Discos</h2> -->
+    <h2>:: Catálogo de Discos ::</h2>
+    <!-- <span class="subheading">Para escuchar y leer...</span> -->
+{% endblock %}
+
+{% block content %}
+    <div class="alinear-discos">
+        {% for disco in discos %}
+            <!-- ImageField tiene atributo url que genera ruta correcta automáticamente ocupando variable MEDIA_URL en settings.py -->
+            <div class="col-lg-2 offset-lg-0 catalogo-nom-disco catalogo-img"> <!-- col-lg-2 permite configurar columnas -->
+                <a href="{% url 'disco' disco.id %}"><img class="catalogo-img" src="{{disco.caratula.url}}" alt=""></a>
+                <a href="{% url 'disco' disco.id %}">{{disco.titulo}}</a>
+                <b class="info-plataformas">({{disco.fechaDisco | date:'Y'}})</b>
+                <br><a href="{% url 'banda' disco.banda.id %}">{{disco.banda}}</a>
+                <p></p>
+            </div>
+        {% endfor %}
+    </div>  
+{% endblock %} 

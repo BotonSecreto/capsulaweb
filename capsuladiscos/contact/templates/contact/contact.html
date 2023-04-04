@@ -1,0 +1,66 @@
+{% extends 'core/base.html' %} <!-- Invoca la plantilla "base.html" -->
+<!-- Bloque particular de esta página -->
+{% load static %}<!-- carga contenido estático-->
+{% block title %}Contacto{% endblock %}
+<!--bloque de imagen de fondo-->
+{% block background %}{% static 'core/img/contact.jpg' %}{% endblock %}
+<!--bloque de título y subtítulo-->
+{% block headers %}
+    <h2>:: Contacto ::</h2>
+    <!-- <span class="subheading">Contacto</span> -->
+{% endblock %}
+{% block content %}
+<section style="border: dashed; border-color: darkgray;" class="page-section about-heading">
+  <div class="container">
+    <div class="about-heading-content">
+      <div class="row">
+        <div class="col-xl-9 col-lg-10 mx-auto">
+          <div class="bg-faded rounded p-5">
+            <h2 class="section-heading mb-4">
+              <span class="section-heading-upper">Contáctate con nosotros</span>
+            </h2>
+            <!-- Formulario de contacto -->
+            {% if 'ok' in request.GET %}
+                <p><b>::Gracias por escribirnos::</b></p>
+                {% elif 'fail' in request.GET%}
+                <p><b>::ERROR, debes completar todo el formulario::</b></p>
+            {% endif %}
+
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Nombre *</label>
+                    <div class="input-group">
+                        {{form.name}}
+                    </div>
+                    {{form.name.errors}}
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <div class="input-group">
+                        {{form.email}}
+                    </div>
+                    {{form.email.errors}}
+                </div>
+                <div class="form-group">
+                    <label>Mensaje *</label>
+                    <div class="input-group">
+                        {{form.content}}
+                    </div>
+                    {{form.content.errors}}
+                </div>
+                <div class="form-group">
+                  Campos obligatorios *
+                </div>
+                <div class="text-center">
+                    <input type="submit" class="btn btn-primary btn-block py-2" value="Enviar">
+                </div>
+            </form>
+            <!-- Fin formulario de contacto -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
