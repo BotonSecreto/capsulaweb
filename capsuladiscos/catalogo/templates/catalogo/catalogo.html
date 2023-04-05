@@ -15,7 +15,7 @@
     <div class="alinear-discos">
         {% for disco in discos %}
             <!-- ImageField tiene atributo url que genera ruta correcta automáticamente ocupando variable MEDIA_URL en settings.py -->
-            <div class="col-lg-2 offset-lg-0 col-md-3 offset-md-0 col-sm-4 offset-sm-0 col-4 offset-0 catalogo-nom-disco"> <!-- col-lg-2 permite configurar columnas -->
+            <div class="col-lg-2 offset-lg-0 col-md-3 offset-md-0 col-sm-4 offset-sm-0 col-6 offset-0 catalogo-nom-disco"> <!-- col-lg-2 permite configurar columnas -->
                 <a href="{% url 'disco' disco.id %}"><img class="catalogo-img" src="{{disco.caratula.url}}" alt=""></a>
                 <a href="{% url 'disco' disco.id %}">{{disco.titulo}}</a>
                 <b class="info-plataformas">({{disco.fechaDisco | date:'Y'}})</b>

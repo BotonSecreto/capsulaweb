@@ -114,7 +114,7 @@
         <!--TODOS LOS DISCOS -->
         {% if disco.banda_id == banda.id %}
         <!-- DISCOS DE ESTE ID DE BANDA-->
-            <div class="col-lg-2 offset-lg-0 catalogo-nom-disco"> <!-- col-lg-2 permite configurar columnas -->
+            <div class="col-lg-2 offset-lg-0 col-md-3 offset-md-0 col-sm-4 offset-sm-0 col-6 offset-0 catalogo-nom-disco"> <!-- col-lg-2 permite configurar columnas -->
                 <a href="{% url 'disco' disco.id %}"><img class="img-fluid" src="{{disco.caratula.url}}" alt=""></a>
                 <a href="{% url 'disco' disco.id %}">{{disco.titulo}}</a>
                 <b class="info-plataformas">({{disco.fechaDisco | date:'Y'}})</b>
