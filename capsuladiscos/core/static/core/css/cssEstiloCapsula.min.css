@@ -105,20 +105,30 @@ blockquote {
     /* padding-left: 20px  */
 }
 
-.catalogo-nom-disco {
-    font-size: 14px;
-    font-family:'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
-    text-align: center;
-    /* border: #868e96 1pt;
-    border-style: dashed; */
+.alinear-discos {
+    display:flex;
+    flex-wrap: wrap;
 }
 
-.catalogo-img {
+.catalogo-img { /* ::: IMÁGENES CATÁLOGO :::: */
     max-width: 100%;
     height: auto;
   }
+/* ::: IMÁGENES CATÁLOGO DEPENDIENDO DE MONITOR :::: */
+ /* móvil */
+.catalogo-nom-disco {
+    font-size: 11px;
+    font-family:'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+    text-align: center;
+}
 
-  
+ @media (min-width:768px) { /* pc */
+    .catalogo-nom-disco {
+        font-size: 13px;
+        font-family:'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+        text-align: center;
+    }
+} 
 /* ::: TAMAÑOS DE CARÁTULA DEPENDIENDO DE MONITOR :::: */
 @media only screen and (min-width:992px) { /* móvil */
     .caratula-tam{
@@ -147,10 +157,6 @@ blockquote {
     }
 }
 /* :::::::::::::::::::::::::::::::::::::::::::::::::: */
-.alinear-discos {
-    display:flex;
-    flex-wrap: wrap;
-}
 
 .avatar {
     width:100%;
