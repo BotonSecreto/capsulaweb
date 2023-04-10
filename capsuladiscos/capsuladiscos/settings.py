@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     'contact', #activar formulario contacto
     'about.apps.AboutConfig', #activar pagina nosotros y configuraciones de 'app'
     'social.apps.SocialConfig', #activar modelo "social"
-    'catalogo.apps.CatalogoConfig', #activar modelo "catalogo" del home 
+    'catalogo.apps.CatalogoConfig', #activar modelo "catalogo" del home
+    'captcha', #activar reCAPTCHA para formulario de contacto
 ]
 
 MIDDLEWARE = [
@@ -147,3 +148,8 @@ EMAIL_HOST_USER = email_setting['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = email_setting['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = email_setting['EMAIL_PORT']
 EMAIL_USE_TLS = email_setting['EMAIL_USE_TLS']
+
+# ************Claves para reCAPTCHA: capsulatest.pythonanywhere.com**************
+RECAPTCHA_PUBLIC_KEY = '6Le603YlAAAAAJ_ZQtZw53zW34M9E448dOjfn-Er'
+RECAPTCHA_PRIVATE_KEY = '6Le603YlAAAAAALek7G4RjypfLqrEaEMSW9ds-ci'
+#  *********************************************

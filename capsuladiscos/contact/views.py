@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect #, HttpResponse
 from django.urls import reverse
 from django.core.mail import EmailMessage #Importar para la estructura del correo
 from .forms import ContactForm #Importamos el formulario
@@ -13,6 +13,7 @@ def contact(request):
             name = request.POST.get('name', '')
             email = request.POST.get('email', '')
             content = request.POST.get('content', '')
+
 
             # Creamos el correo
             email = EmailMessage(
