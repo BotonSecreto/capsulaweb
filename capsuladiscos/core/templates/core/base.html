@@ -26,6 +26,9 @@
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="{% static 'core/img/Capsula_ico.ico' %}"> <!-- Ícono del sitio -->
+    
+    {%block head%}
+    {%endblock%}
 </head>
 
 <body>
@@ -146,6 +149,20 @@
      <script src="{% static 'core/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
      <script src="{% static 'core/js/clean-blog.min.js' %}"></script>
      
+    <!-- SWEETALERT -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+         {%  if messages %}
+            {% for m in messages %}
+              <script>
+                  Swal.fire({
+                      "title": "Cápsula Discos",
+                      "text" : "{{m}}",
+                      "icon" : "success"
+                  })
+              </script>
+            {% endfor %}
+          {% endif %}
+    <!-- ************ -->
 </body>
 
 </html>

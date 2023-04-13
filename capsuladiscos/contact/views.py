@@ -1,20 +1,21 @@
-from django.shortcuts import render, redirect #, HttpResponse
+from django.shortcuts import render, redirect#, HttpResponse
 from django.urls import reverse
 from django.core.mail import EmailMessage #Importar para la estructura del correo
 from .forms import ContactForm #Importamos el formulario
-from capsuladiscos.settings import EMAIL_HOST_USER 
+from capsuladiscos.settings import EMAIL_HOST_USER
+from django.contrib import messages #para swettalert
+
+#from tkinter import messagebox as MessageBox # mensajes emergente
 
 def contact(request):
     contact_form = ContactForm() #creamos una instancia en la vista
 
     if request.method == "POST":
         contact_form = ContactForm(data=request.POST)
-        if contact_form.is_valid():
+        if contact_form.is_valid():           
             name = request.POST.get('name', '')
             email = request.POST.get('email', '')
             content = request.POST.get('content', '')
-
-
             # Creamos el correo
             email = EmailMessage(
                 "CápsulaDiscos.com: Nuevo mensaje de contacto", #ASUNTO
@@ -27,10 +28,13 @@ def contact(request):
             try:
                 email.send()
                 # Todo ha ido bien, redireccionamos a OK
-                return redirect(reverse('contact')+"?ok")
+                #MessageBox.showinfo(message="¡Mensaje enviado con éxito!", title="Cápsula Discos") #alerta de python
+                messages.success(request,"¡Mensaje enviado con éxito!")
+                return redirect(reverse('catalogo'))
+                #return redirect(reverse('contact')+"?ok")
             except:
                 # Algo no ha ido bien, redireccionamos a FAIL
                 return redirect(reverse('contact')+"?fail")
-        # else:
-        #     return HttpResponse("Debe completar todos los campos del formulario")
+            #else:
+            #    return HttpResponse("Debe completar todos los campos del formulario") """
     return render(request, "contact/contact.html",{'form':contact_form})

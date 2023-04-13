@@ -1,6 +1,10 @@
 {% extends 'core/base.html' %} <!-- Invoca la plantilla "base.html" -->
 <!-- Bloque particular de esta página -->
 {% load static %}<!-- carga contenido estático-->
+{%block head%}
+<script src='https://www.google.com/recaptcha/api.js?hl=es' async defer></script><!--SCRIPT RECAPTCHA -->
+
+{%endblock%}
 {% block title %}Contacto{% endblock %}
 <!--bloque de imagen de fondo-->
 {% block background %}{% static 'core/img/contact.jpg' %}{% endblock %}
@@ -11,8 +15,6 @@
 {% endblock %}
 {% block content %}
 
-<script src='https://www.google.com/recaptcha/api.js?hl=es' async defer></script><!--SCRIPT RECAPTCHA -->
-
 <section style="border: dashed; border-color: darkgray;" class="page-section about-heading">
   <div class="container">
     <div class="about-heading-content">
@@ -22,13 +24,9 @@
             <h2 class="section-heading mb-4">
               <span class="section-heading-upper">Contáctate con nosotros</span>
             </h2>
-            <!-- Formulario de contacto -->
-            {% if 'ok' in request.GET %}
-                <p><b>::Gracias por escribirnos::</b></p>
-                {% elif 'fail' in request.GET%}
-                <p><b>::ERROR, debes completar todo el formulario::</b></p>
+            {% if 'fail' in request.GET%}
+              <p><b>:: ERROR: Mensaje no pudo ser enviado, reinténtalo ::</b></p>
             {% endif %}
-
             <form action="" method="POST">
                 {% csrf_token %}
                 <div class="form-group">
@@ -58,11 +56,11 @@
                   <div class="input-group">
                     <div class="g-recaptcha" data-sitekey="6LesznYlAAAAACRNhu0qz3m0rjsJukLiltum30BN"></div><!-- RECAPTCHA 127.0.0.1-->
                   </div>
-                  <!-- {{form.recaptcha.errors}} -->
+                  <strong>{{form.recaptcha.errors}}</strong>
                 </div>
 
                 <div class="form-group">
-                  Campos obligatorios *
+                  * [Campos obligatorios]
                 </div>
                 <div class="text-center">
                     <input type="submit" class="btn btn-primary btn-block py-2" value="Enviar">

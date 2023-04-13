@@ -12,5 +12,3 @@ function capturar(){
 function escribirDisc(){
   document.getElementById("colabDisco").innerHTML = '<b>Créditos y colaboraciones de la producción</b>';
 }
-
-
