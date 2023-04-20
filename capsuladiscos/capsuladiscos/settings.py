@@ -11,9 +11,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-bq8hi^xfy-cmq$7%rxax0cn4pb%ngj-17jir(ftvvz@2m-b#wz'
 
-# ************Claves para reCAPTCHA: 127.0.0.1**************
-RECAPTCHA_PUBLIC_KEY = '6LesznYlAAAAACRNhu0qz3m0rjsJukLiltum30BN'
-RECAPTCHA_PRIVATE_KEY = '6LesznYlAAAAALw9f1lXzJiI2rZrJO0DgWFHDRZ1'
+# ************Claves para reCAPTCHA: capsuladiscos.cl**************
+RECAPTCHA_PUBLIC_KEY = '6Lf6eYYlAAAAAJTTfdA1WEh_DFW-fKdighOVgogH'
+RECAPTCHA_PRIVATE_KEY = '6Lf6eYYlAAAAAGhT61Ty2OaB7kl2Zb225Z29_e68'
 #  *********************************************
 
 MESSAGE_STORAGE= "django.contrib.messages.storage.cookie.CookieStorage"
